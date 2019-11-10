@@ -5,6 +5,9 @@ const filename = process.argv[2];
 const contest = process.argv[3];
 const candidate = process.argv[4];
 
+var election;
+var precincts;
+
 loadJsonFilesFromZip(filename,
   [
     'BallotTypeManifest.json',
@@ -18,7 +21,21 @@ loadJsonFilesFromZip(filename,
     'PrecinctPortionManifest.json',
     'TabulatorManifest.json'
   ]).then(function(result){
-  console.log(JSON.stringify(result.CvrExport[1]));
+    election = result;
+    return fs.readJson('./precincts.geojson');
+}).then(function(result){
+    precincts = result;
+
+    console.log(JSON.stringify(election.CvrExport[1]));
+    var precinctPortionIdForVote = election.CvrExport[1].Original.PrecinctPortionId;
+    var precinctPortionForVote = election.PrecinctPortionManifest.filter(function(x){ return x.Id == precinctPortionIdForVote; })[0];
+    console.log(precinctPortionForVote.Description);
+    console.log(precincts.features[0]);
+    var geometry = precincts.features.filter(function(feature){
+      return precinctPortionForVote.Description.indexOf(" " + feature.properties.prec_2012) > -1
+            || precinctPortionForVote.Description.indexOf("/" + feature.properties.prec_2012) > -1
+    })[0];
+    console.log(geometry.properties.neighrep);
 });
 
 function loadJsonFilesFromZip(zipFile,filenames){
