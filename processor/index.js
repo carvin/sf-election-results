@@ -3,8 +3,6 @@ const JSZip = require('jszip');
 const turf = require('@turf/turf');
 
 const filename = process.argv[2];
-const contest = process.argv[3];
-const candidate = process.argv[4];
 
 var election;
 var precinct_shapes;
@@ -38,7 +36,7 @@ loadJsonFilesFromZip(filename,
 
       entry.Contests.forEach(function(contest){
         var ranks = [];
-        
+
         contest.Marks.filter(function(mark){ return !mark.IsAmbiguous }).forEach(function(mark){
           ranks.push(mark);
         });
