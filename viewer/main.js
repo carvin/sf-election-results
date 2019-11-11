@@ -55,6 +55,8 @@ const app = new Vue({
           }
         });
 
+        var beneath = 'road-label';
+
       map.addLayer({
         'id': 'precincts',
         'type': 'fill',
@@ -66,7 +68,7 @@ const app = new Vue({
           //'fill-opacity': ["/",["get","winner_percent"],100]
         },
         'filter': ["==","hasContest",true]
-      });
+      },beneath);
 
       map.addLayer({
         'id': 'precinct_lines',
@@ -80,7 +82,7 @@ const app = new Vue({
           //'fill-opacity': ["/",["get","winner_percent"],100]
         },
         'filter': ["==","hasContest",true]
-      });
+      },beneath);
 
       map.addLayer({
         'id': 'precinct_selected_fill',
@@ -93,7 +95,7 @@ const app = new Vue({
           //'fill-opacity': ["/",["get","winner_percent"],100]
         },
         'filter': ["==","pid","-1"]
-      });
+      },beneath);
 
       map.addLayer({
         'id': 'precinct_selected_line',
@@ -106,7 +108,7 @@ const app = new Vue({
           'line-opacity': 1
         },
         'filter': ["==","pid","-1"]
-      });
+      },beneath);
 
       Global.map = map;
       this.mapboxLoaded = true;
