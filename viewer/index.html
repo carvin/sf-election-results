@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="dependencies/components/dropdown.css" />
+    <link rel="stylesheet" href="dependencies/components/map-popup.css" />
+    <link rel="stylesheet" href="dependencies/components/toggle.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>SF Election Map</title>
+  </head>
+  <body>
+    <div id="app">
+
+        <mapbox
+
+                access-token="pk.eyJ1IjoiY2FydmluIiwiYSI6ImNqbjg2azVnZjBjdm0za2xncnV1OXdvbnAifQ.mvsVQo1ySTL5AEZdS3RfzA"
+                :map-options="{
+                  style: 'mapbox://styles/mapbox/light-v9',
+                  bounds: [[-122.323881,37.691389],[-122.546127,37.817149]]
+                }"
+                :geolocate-control="{
+                  show: false
+                }"
+                :scale-control="{
+                  show: false
+                }"
+                :fullscreen-control="{
+                  show: false
+                }"
+                :scale-control="{
+                  show: false
+                }"
+                :nav-control="{
+                  show: false
+                }"
+                @map-load="mapLoaded"
+                @map-mousemove="mapMouseMove"
+                @map-click="mapClick">
+      </mapbox>
+      <map-popup :content="activePrecinctResults" :location="activeHoverLocation">
+        <template v-slot:default="slotProps">
+          <div v-if="slotProps.content">
+            <!--<h3>{{ activePrecinctResults.precinct.properties.name }}</h3>-->
+            <ul class="popup-values">
+              <li v-for="candidate in activePrecinctResults.candidates" v-if="candidate.winner || popupClicked"><span>{{ candidate.name }}</span><span>{{ candidate.percent }}%<span class="vote-total"> ({{ candidate.votes }})</span></span></li>
+            </ul>
+          </div>
+        </template>
+      </map-popup>
+      <div class="controls" v-if="mapboxLoaded && election">
+        <h1>SF Election 2019</h1>
+        <p>First choice votes by precinct. Map created by <a href="https://twitter.com/chrisarvinsf" target="_blank">Chris Arvin</a></p>
+        <dropdown
+                  v-bind:options="contestOptions"
+                  title="Select a Race"
+                  field="selectedContestID"
+                  :value="selectedContestID"
+                  v-model="selectedContestID"
+                  v-on:change="updateContest();">
+                </dropdown>
+
+        <div class="legend">
+          <label>Legend</label>
+          <ul class="legend-list">
+            <li v-for="candidate in legend"><div class="legend_box" v-bind:style="{ backgroundColor: candidate.color }"></div>{{ candidate.Description }}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="fullscreen-loader" v-if="!mapboxLoaded"><div class="loader-wrap"><div class="loader">Loading...</div></div></div>
+      <div class="legend mobile-legend" v-if="mapboxLoaded && election">
+        <ul class="legend-list">
+          <li v-for="candidate in legend"><div class="legend_box" v-bind:style="{ backgroundColor: candidate.color }"></div>{{ candidate.Description }}</li>
+        </ul>
+      </div>
+    </div>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+    <script src="dependencies/vue.js"></script>
+    <script src="dependencies/geostats.min.js"></script>
+    <script src="dependencies/components/mapbox.js"></script>
+    <script src="dependencies/components/map-popup.js"></script>
+    <script src="dependencies/components/dropdown.js"></script>
+    <script src="dependencies/components/toggle.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

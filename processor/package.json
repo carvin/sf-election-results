@@ -1,0 +1,16 @@
+{
+  "name": "sf-election-results",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@turf/turf": "^5.1.6",
+    "fs-extra": "^8.1.0",
+    "jszip": "^3.2.2"
+  }
+}

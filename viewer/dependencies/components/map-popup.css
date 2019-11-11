@@ -1,0 +1,53 @@
+.mapboxgl-popup {
+  pointer-events: none;
+  max-width: none !important;
+  padding-bottom: 20px;
+}
+
+.mapboxgl-popup-content {
+  padding: 0;
+}
+
+.mapboxgl-popup-content, .mapboxgl-popup-content *, .mapboxgl-popup * {
+  pointer-events: none !important;
+}
+
+.popup-content h3 {
+  background: #f0f0f0;
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  padding: 0 16px;
+  line-height: 48px;
+  height: 48px;
+  margin-bottom: 0;
+}
+
+.popup-content ul.popup-values {
+  box-sizing: border-box;
+  padding: 0 16px;
+}
+
+.popup-content ul.popup-values li {
+  width: 100%;
+  height: 48px;
+  display: block;
+  white-space: nowrap;
+}
+
+.popup-content ul.popup-values li > span {
+  width: 120px;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 48px;
+}
+
+.popup-content ul.popup-values li > span:first-child {
+  text-align: left;
+  font-weight: 600;
+  margin-right: 32px;
+}
+
+.popup-content ul.popup-values li > span:last-child {
+  text-align: right;
+}

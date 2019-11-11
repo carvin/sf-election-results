@@ -1,0 +1,114 @@
+div.modal-wrap {
+  display: block;
+  position: absolute;
+  z-index:  999;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+div.modal-wrap.panel {
+  width: 320px;
+}
+
+div.modal-wrap  div.modal-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: 0.7;
+}
+
+div.modal-wrap.panel div.modal-bg {
+  display: none;
+}
+
+div.modal-wrap div.modal-box {
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.5);
+  position: absolute;
+  width: 90%;
+  max-width: 560px;
+  height: 90%;
+  max-height: 480px;
+  transform: translate3d(-50%,-50%,0);
+  top: 50%;
+  left: 50%;
+}
+
+div.modal-wrap.panel div.modal-box {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  transform: translate3d(0,0,0);
+  border-radius: 0;
+}
+
+div.modal-title, div.modal-bottom {
+  height: 72px;
+  width: 100%;
+  padding: 4px 16px;
+  box-sizing: border-box;
+  border-color: #ddd;
+  border-style: solid;
+  position: relative;
+}
+
+div.modal-title {
+  border-bottom-width: 1px;
+}
+
+div.modal-title h1 {
+  height: 64px;
+  line-height: 64px;
+  padding: 0;
+  margin: 0;
+}
+
+div.modal-content {
+  padding: 16px;
+  height: calc(100% - 72px - 72px);
+  overflow: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+div.modal-bottom {
+  border-top-width: 1px;
+}
+
+div.modal-bottom button {
+  float: right;
+  margin-top: 8px;
+}
+
+a.modal-close {
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: block;
+  background-image: url("data:image/svg+xml,%3Csvg width='26' height='26' viewBox='0 0 26 26' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M20.0711 7.34316L18.6569 5.92895L13 11.5858L7.34315 5.92895L5.92893 7.34316L11.5858 13L5.92893 18.6569L7.34315 20.0711L13 14.4142L18.6569 20.0711L20.0711 18.6569L14.4142 13L20.0711 7.34316Z' fill='%231A1F22'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+div.modal-wrap.panel div.modal-box h1 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  width: calc(100% - 72px);
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
