@@ -77,7 +77,7 @@
           </ul>
         </div>
       </div>
-      <div class="fullscreen-loader" v-if="!mapboxLoaded"><div class="loader-wrap"><div class="loader">Loading...</div></div></div>
+      <div class="fullscreen-loader" v-if="!(mapboxLoaded && election)"><div class="loader-wrap"><div class="loader">Loading...</div></div></div>
       <div class="legend mobile-legend" v-if="mapboxLoaded && election">
         <ul class="legend-list">
           <li v-for="candidate in legend"><div class="legend_box" v-bind:style="{ backgroundColor: candidate.color }"></div>{{ candidate.Description }}</li>

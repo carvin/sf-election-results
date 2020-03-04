@@ -5,11 +5,11 @@ const app = new Vue({
   data: {
     mapboxLoaded: false,
     election: null,
-    selectedContestID: 339,
+    selectedContestID: 7,
     activePrecinct: null,
     activeHoverLocation: null,
     popupClicked: false,
-    colors: ["#00697F","#AD005C","#129400","#D34C00"],
+    colors: ["#00697F","#AD005C","#129400","#D34C00","#331832"],
     colorsByCandidate: {}
   },
   computed: {
@@ -18,13 +18,28 @@ const app = new Vue({
       if(!self.election){ return []; }
 
       var candidates = self.election.candidates.filter(function(candidate){
-        return self.colorsByCandidate[candidate.Id] != null;
+        return self.colorsByCandidate[candidate.Id] != null && candidate.ContestId == self.selectedContestID;
       });
 
-      return candidates.map(function(candidate){
-        candidate.color = self.colorsByCandidate[candidate.Id];
+      var i = 1;
+      var over = false;
+      var result = candidates.map(function(candidate){
+        if(i <= self.colors.length){
+          candidate.color = self.colorsByCandidate[candidate.Id];
+        } else {
+          over = true;
+        }
+        i++;
         return candidate;
       });
+
+      if(over){
+        result.push({
+          'Description': 'Other',
+          'color': '#999999'
+        });
+      }
+      return result;
     },
     contestOptions: function(){
       return this.election.contests.map(function(contest){
@@ -188,20 +203,28 @@ const app = new Vue({
               winner_percents_by_winner[feature.properties.winner] = [];
             }
             winner_percents_by_winner[feature.properties.winner].push(feature.properties.winner_percent);
-            precinct_winners[feature.properties.winner] = true;
+            if(!precinct_winners[feature.properties.winner]){
+              precinct_winners[feature.properties.winner] = 0;
+            }
+            precinct_winners[feature.properties.winner]++;
           }
         } else {
           feature.properties.hasContest = false;
         }
 
         return feature;
+      }).filter(function(feature){
+        return feature.properties.hasContest;
+      })
+
+      var num_classes = 4;
+      winner_percents = winner_percents.filter(function(percent){
+        return percent != undefined;
       });
-
-      var num_classes = 3;
-
       var classifier = new geostats(winner_percents)
       var jenksResult = classifier.getJenks2(num_classes);
       var jenksResult_by_winner = {};
+
 
 
       Object.keys(winner_percents_by_winner).forEach(function(winner){
@@ -221,10 +244,21 @@ const app = new Vue({
       var i = 0;
 
       self.colorsByCandidate = {};
-      Object.keys(precinct_winners).forEach(function(winner){
-        self.colorsByCandidate[winner] = self.colors[i];
-        i++;
+
+      var candidateArray = Object.keys(precinct_winners).map(function(precinct_winner){
+        return { Id: precinct_winner, count: precinct_winners[precinct_winner] };
       });
+
+      candidateArray.sort(function(a,b){
+        return b.count - a.count;
+      })
+
+      candidateArray.forEach(function(c){
+        if(self.colors[i]){
+          self.colorsByCandidate[c.Id] = self.colors[i] ? self.colors[i] : "#cccccc";
+        }
+        i++;
+      })
 
       for(var i = 0; i < features.length; i++){
         var feature = features[i];
@@ -242,7 +276,7 @@ const app = new Vue({
           features[i].properties.breakpointPercent = percent_min + ((percent_max - percent_min) * fullPercent);
         }
 
-        features[i].properties.color = self.colorsByCandidate[feature.properties.winner];
+        features[i].properties.color = self.colorsByCandidate[feature.properties.winner] ? self.colorsByCandidate[feature.properties.winner] : "#999999";
       }
 
       var geoJson = {
