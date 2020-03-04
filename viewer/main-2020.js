@@ -297,7 +297,7 @@ const app = new Vue({
   },
   mounted: function(){
     var self = this;
-    fetch('https://us-central1-sf-elections.cloudfunctions.net/electionDataURL?election=11-2019').then(function(result){
+    fetch('https://us-central1-sf-elections.cloudfunctions.net/electionDataURL?election=03-2020').then(function(result){
       return result.json();
     }).then(function(json){
       return fetch(json.url);
