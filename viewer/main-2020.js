@@ -9,7 +9,7 @@ const app = new Vue({
     activePrecinct: null,
     activeHoverLocation: null,
     popupClicked: false,
-    colors: ["#00697F","#AD005C","#129400","#D34C00","#331832"],
+    colors: ["#00697F","#AD005C","#129400","#D34C00","#3E2F5B"],
     colorsByCandidate: {}
   },
   computed: {
